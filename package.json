@@ -1,0 +1,11 @@
+{
+  "name": "dappdockerfile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker-compose": "docker-compose up --build"
+  },
+  "author": "",
+  "license": "ISC"
+}

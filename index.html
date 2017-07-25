@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>dApp</title>
+    <script src="https://unpkg.com/ipfs-api/dist/index.js"></script>
+    <script src="http://rawgit.com/ethereum/web3.js/master/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="http://rawgit.com/trufflesuite/truffle-contract/master/dist/truffle-contract.min.js"></script>
+    <script>
+    window.onload = function() {
+      if (typeof web3 !== 'undefined') {
+        web3 = new Web3(web3.currentProvider);
+      } else {
+        // set the provider you want from Web3.providers
+        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+      }
+      $.getJSON("./build/contracts/MetaCoin.json", function(MetaCoin_json) {
+        var MyContract = TruffleContract( MetaCoin_json );
+        MyContract.setProvider(new Web3.providers.HttpProvider("http://localhost:8545"));
+        MyContract.deployed().then(function(instance) {
+            console.log('got instance: ', instance)
+            return instance.getBalance.call(web3.eth.accounts[2]);
+        }).then( function(balance) {
+            document.body.innerHTML = document.body.innerHTML  + " balance " + balance;
+        });
+      })
+    };
+    </script>
+</head>
+
+<body>
+
+    <script>
+        window.IpfsApi('localhost', '5001').id()
+            .then(function (id) {
+                console.log('my id is: ', id)
+            })
+            .catch(function (err) {
+                console.log('Fail: ', err)
+            })
+    </script>
+
+</body>
+
+</html>
